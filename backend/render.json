@@ -1,0 +1,18 @@
+{
+  "$schema": "https://render.com/schema/other.json",
+  "services": [
+    {
+      "type": "python",
+      "name": "sigerak-backend",
+      "runtime": "python",
+      "buildCommand": "pip install -r requirements.txt && python ml/train.py",
+      "startCommand": "gunicorn app:app",
+      "envVars": [
+        {
+          "key": "PYTHON_VERSION",
+          "value": "3.11.0"
+        }
+      ]
+    }
+  ]
+}
