@@ -5,11 +5,6 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "framework": "vite",
-  "functions": {
-    "api/index.py": {
-      "runtime": "@vercel/python@3"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
