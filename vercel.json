@@ -7,7 +7,55 @@
   "framework": "vite",
   "rewrites": [
     {
-      "source": "/((?!assets/).*)",
+      "source": "/api/health",
+      "destination": "/api/health.py"
+    },
+    {
+      "source": "/api/summary",
+      "destination": "/api/summary.py"
+    },
+    {
+      "source": "/api/v2g/ev-pool",
+      "destination": "/api/ev-pool.py"
+    },
+    {
+      "source": "/api/v2g/vpp-capacity",
+      "destination": "/api/vpp-capacity.py"
+    },
+    {
+      "source": "/api/v2g/dispatch-history",
+      "destination": "/api/dispatch-history.py"
+    },
+    {
+      "source": "/api/grading/history",
+      "destination": "/api/grading-history.py"
+    },
+    {
+      "source": "/api/grading/distribution",
+      "destination": "/api/grading-distribution.py"
+    },
+    {
+      "source": "/api/analysis/trends",
+      "destination": "/api/trends.py"
+    },
+    {
+      "source": "/api/data/sources",
+      "destination": "/api/data-sources.py"
+    },
+    {
+      "source": "/api/ml/predict/soh",
+      "destination": "/api/predict-soh.py"
+    },
+    {
+      "source": "/api/ml/predict/rul",
+      "destination": "/api/predict-rul.py"
+    },
+    {
+      "source": "/api/ml/predict/mobility-risk",
+      "destination": "/api/predict-risk.py"
+    },
+    {
+      "source": "/((?!assets/|api/).*)",
       "destination": "/index.html"
     }
   ]

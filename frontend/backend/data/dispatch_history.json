@@ -1,0 +1,12 @@
+[
+  {"id": 1, "ev_plate": "DK 1234 EV", "dispatch_date": "2026-08-20 14:30", "duration_minutes": 120, "energy_kwh": 12.5, "compensation_rp": 18750, "grid_demand": "Beban Puncak Sore"},
+  {"id": 2, "ev_plate": "B 5678 EV", "dispatch_date": "2026-08-20 16:45", "duration_minutes": 90, "energy_kwh": 5.2, "compensation_rp": 7800, "grid_demand": "Beban Puncak Sore"},
+  {"id": 3, "ev_plate": "L 9012 EV", "dispatch_date": "2026-08-19 10:15", "duration_minutes": 60, "energy_kwh": 3.8, "compensation_rp": 5700, "grid_demand": "Beban Pagi"},
+  {"id": 4, "ev_plate": "D 3456 EV", "dispatch_date": "2026-08-20 18:00", "duration_minutes": 150, "energy_kwh": 15.3, "compensation_rp": 22950, "grid_demand": "Beban Puncak Malam"},
+  {"id": 5, "ev_plate": "F 1122 EV", "dispatch_date": "2026-08-20 12:20", "duration_minutes": 105, "energy_kwh": 11.8, "compensation_rp": 17700, "grid_demand": "Beban Siang"},
+  {"id": 6, "ev_plate": "G 3344 EV", "dispatch_date": "2026-08-18 09:30", "duration_minutes": 45, "energy_kwh": 2.1, "compensation_rp": 3150, "grid_demand": "Beban Pagi"},
+  {"id": 7, "ev_plate": "H 5566 EV", "dispatch_date": "2026-08-20 15:10", "duration_minutes": 80, "energy_kwh": 8.7, "compensation_rp": 13050, "grid_demand": "Beban Puncak Sore"},
+  {"id": 8, "ev_plate": "B 9900 EV", "dispatch_date": "2026-08-20 17:25", "duration_minutes": 135, "energy_kwh": 13.4, "compensation_rp": 20100, "grid_demand": "Beban Puncak Sore"},
+  {"id": 9, "ev_plate": "C 2233 EV", "dispatch_date": "2026-08-19 14:00", "duration_minutes": 70, "energy_kwh": 6.9, "compensation_rp": 10350, "grid_demand": "Beban Siang"},
+  {"id": 10, "ev_plate": "D 4455 EV", "dispatch_date": "2026-08-20 19:00", "duration_minutes": 95, "energy_kwh": 7.5, "compensation_rp": 11250, "grid_demand": "Beban Puncak Malam"}
+]
