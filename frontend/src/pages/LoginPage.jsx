@@ -2,15 +2,9 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { fetchSummary } from '../services/api'
-import { User, Lock, Eye, EyeOff, Zap, BatteryFull, BatteryCharging } from 'lucide-react'
+import { Shield, Users, Zap, BatteryFull, BatteryCharging, ArrowRight } from 'lucide-react'
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [shake, setShake] = useState(false)
   const [stats, setStats] = useState(null)
   const { login, user } = useAuth()
   const navigate = useNavigate()
@@ -23,23 +17,35 @@ export default function LoginPage() {
     fetchSummary().then(setStats).catch(() => {})
   }, [])
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
-
-    setTimeout(() => {
-      const result = login(username, password)
-      if (result.success) {
-        navigate('/', { replace: true })
-      } else {
-        setError(result.error)
-        setShake(true)
-        setTimeout(() => setShake(false), 500)
-      }
-      setLoading(false)
-    }, 400)
+  const handleRoleLogin = (role) => {
+    if (role === 'pengelola') {
+      login('admin', 'sigerak123')
+    } else {
+      login('user1', 'user123')
+    }
+    navigate('/', { replace: true })
   }
+
+  const roles = [
+    {
+      id: 'pengelola',
+      title: 'Pengelola',
+      subtitle: 'Akses penuh ke semua fitur',
+      icon: Shield,
+      color: '#1E88E5',
+      bgColor: '#E3F2FD',
+      features: ['Dashboard & Analytics', 'Prediksi SoH & RUL', 'Grading & Mobility Risk', 'Export PDF'],
+    },
+    {
+      id: 'pengguna',
+      title: 'Pengguna',
+      subtitle: 'Akses terbatas untuk monitoring',
+      icon: Users,
+      color: '#43A047',
+      bgColor: '#E8F5E9',
+      features: ['Dashboard Monitoring', 'Lihat Reports & Insights', 'Status Baterai Real-time', 'Tanpa Export'],
+    },
+  ]
 
   const statCards = [
     { icon: Zap, value: stats?.total_ev || 0, label: 'EV Terdaftar', color: '#1E88E5' },
@@ -147,113 +153,57 @@ export default function LoginPage() {
           {/* Header */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold mb-1" style={{ color: '#1E293B' }}>Selamat Datang</h2>
-            <p className="text-sm" style={{ color: '#64748B' }}>Masuk ke akun kamu untuk mengakses dashboard</p>
+            <p className="text-sm" style={{ color: '#64748B' }}>Pilih role untuk masuk ke dashboard</p>
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Username */}
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: '#475569' }}>Username</label>
-              <div className="relative">
-                <div className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: '#94A3B8' }}>
-                  <User size={18} />
-                </div>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => { setUsername(e.target.value); setError('') }}
-                  placeholder="Masukkan username"
-                  className="w-full pl-11 pr-4 py-3 rounded-xl text-sm border outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-100 focus:border-blue-400"
-                  style={{
-                    borderColor: error ? '#EF5350' : '#E2E8F0',
-                    background: '#FFFFFF',
-                    color: '#1E293B',
-                  }}
-                  autoFocus
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: '#475569' }}>Password</label>
-              <div className="relative">
-                <div className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: '#94A3B8' }}>
-                  <Lock size={18} />
-                </div>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => { setPassword(e.target.value); setError('') }}
-                  placeholder="Masukkan password"
-                  className="w-full pl-11 pr-12 py-3 rounded-xl text-sm border outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-100 focus:border-blue-400"
-                  style={{
-                    borderColor: error ? '#EF5350' : '#E2E8F0',
-                    background: '#FFFFFF',
-                    color: '#1E293B',
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 cursor-pointer transition-colors hover:opacity-70"
-                  style={{ color: '#94A3B8' }}
-                  tabIndex={-1}
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-            </div>
-
-            {/* Error message */}
-            {error && (
-              <div
-                className={`px-4 py-2.5 rounded-lg text-xs font-medium ${shake ? 'animate-shake' : ''}`}
-                style={{ background: '#FFEBEE', color: '#C62828', border: '1px solid #FFCDD2' }}
+          {/* Role Cards */}
+          <div className="space-y-4">
+            {roles.map((role) => (
+              <button
+                key={role.id}
+                onClick={() => handleRoleLogin(role.id)}
+                className="w-full p-5 rounded-2xl border text-left transition-all duration-200 cursor-pointer hover:shadow-lg hover:-translate-y-0.5 group"
+                style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}
               >
-                {error}
-              </div>
-            )}
-
-            {/* Button */}
-            <button
-              type="submit"
-              disabled={loading || !username || !password}
-              className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98]"
-              style={{ background: '#1E88E5' }}
-            >
-              {loading ? (
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Memproses...</span>
+                <div className="flex items-start gap-4">
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
+                    style={{ background: role.bgColor }}
+                  >
+                    <role.icon size={24} style={{ color: role.color }} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="font-bold text-base" style={{ color: '#1E293B' }}>{role.title}</h3>
+                      <ArrowRight
+                        size={18}
+                        className="transition-transform group-hover:translate-x-1"
+                        style={{ color: '#94A3B8' }}
+                      />
+                    </div>
+                    <p className="text-xs mb-3" style={{ color: '#64748B' }}>{role.subtitle}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {role.features.map((f) => (
+                        <span
+                          key={f}
+                          className="text-[10px] px-2 py-1 rounded-md font-medium"
+                          style={{ background: role.bgColor, color: role.color }}
+                        >
+                          {f}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              ) : (
-                'Masuk'
-              )}
-            </button>
-          </form>
+              </button>
+            ))}
+          </div>
 
           {/* Footer */}
           <div className="mt-8 text-center">
             <p className="text-xs" style={{ color: '#94A3B8' }}>
-              Belum punya akun? Hubungi Pengelola sistem
+              Demo mode — Pilih role langsung masuk tanpa password
             </p>
-          </div>
-
-          {/* Demo accounts info */}
-          <div className="mt-6 p-4 rounded-xl" style={{ background: '#F8FAFC', border: '1px solid #E2E8F0' }}>
-            <div className="text-[11px] font-semibold mb-2" style={{ color: '#64748B' }}>Akun Demo</div>
-            <div className="space-y-1.5 text-[11px]" style={{ color: '#94A3B8' }}>
-              <div className="flex justify-between">
-                <span>Admin (Pengelola)</span>
-                <span className="font-mono" style={{ color: '#64748B' }}>admin / sigerak123</span>
-              </div>
-              <div className="flex justify-between">
-                <span>User (Pengguna)</span>
-                <span className="font-mono" style={{ color: '#64748B' }}>user1 / user123</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
