@@ -1,24 +1,38 @@
 import { useState } from 'react'
-import { Outlet, NavLink, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Zap, BatteryFull, BarChart3, ChevronLeft, ChevronRight, Bell, Search, User, FileDown } from 'lucide-react'
+import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { LayoutDashboard, Zap, BatteryFull, BarChart3, ChevronLeft, ChevronRight, Bell, Search, User, FileDown, LogOut } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
 
-const navItems = [
+const allNavItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/v2g', icon: Zap, label: 'V2G Module' },
-  { to: '/grading', icon: BatteryFull, label: 'Grading' },
+  { to: '/v2g', icon: Zap, label: 'V2G Module', adminOnly: true },
+  { to: '/grading', icon: BatteryFull, label: 'Grading', adminOnly: true },
   { to: '/reports', icon: BarChart3, label: 'Reports & Insights' },
 ]
 
-const tabItems = [
+const allTabItems = [
   { to: '/', label: 'Dashboard' },
-  { to: '/v2g', label: 'Analytics' },
-  { to: '/grading', label: 'Grading' },
+  { to: '/v2g', label: 'Analytics', adminOnly: true },
+  { to: '/grading', label: 'Grading', adminOnly: true },
   { to: '/reports', label: 'Reports & Insights' },
 ]
 
 export default function Layout() {
   const [collapsed, setCollapsed] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
+  const { user, logout } = useAuth()
+  const isAdmin = user?.role === 'pengelola'
+
+  const navItems = allNavItems.filter(item => !item.adminOnly || isAdmin)
+  const tabItems = allTabItems.filter(item => !item.adminOnly || isAdmin)
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login', { replace: true })
+  }
+
+  const roleLabel = user?.role === 'pengelola' ? 'Pengelola' : 'Pengguna'
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: '#F8FAFC' }}>
@@ -96,13 +110,21 @@ export default function Layout() {
               <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full" style={{ background: '#E53935' }} />
             </button>
             <div className="flex items-center gap-2 pl-3 border-l" style={{ borderColor: '#E2E8F0' }}>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style={{ background: '#1E88E5' }}>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style={{ background: user?.role === 'pengelola' ? '#1E88E5' : '#43A047' }}>
                 <User size={16} />
               </div>
               <div className="text-xs">
-                <div className="font-semibold" style={{ color: '#1E293B' }}>Admin</div>
-                <div style={{ color: '#64748B' }}>Operator</div>
+                <div className="font-semibold" style={{ color: '#1E293B' }}>{user?.name || 'User'}</div>
+                <div style={{ color: '#64748B' }}>{roleLabel}</div>
               </div>
+              <button
+                onClick={handleLogout}
+                className="ml-1 p-1.5 rounded-lg hover:bg-red-50 transition cursor-pointer"
+                style={{ color: '#94A3B8' }}
+                title="Logout"
+              >
+                <LogOut size={16} />
+              </button>
             </div>
           </div>
         </header>
@@ -126,14 +148,16 @@ export default function Layout() {
               )
             })}
           </div>
-          <button
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer hover:shadow-sm"
-            style={{ background: '#F1F5F9', color: '#475569', border: '1px solid #E2E8F0' }}
-            onClick={() => window.print()}
-          >
-            <FileDown size={16} />
-            <span>Export PDF</span>
-          </button>
+          {isAdmin && (
+            <button
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer hover:shadow-sm"
+              style={{ background: '#F1F5F9', color: '#475569', border: '1px solid #E2E8F0' }}
+              onClick={() => window.print()}
+            >
+              <FileDown size={16} />
+              <span>Export PDF</span>
+            </button>
+          )}
         </div>
 
         {/* Content */}
