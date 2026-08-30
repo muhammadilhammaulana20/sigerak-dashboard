@@ -4,13 +4,13 @@ import { Zap, MapPin, Clock, Battery, TrendingUp, AlertTriangle } from 'lucide-r
 
 function EVStatusBadge({ status }) {
   const styles = {
-    'Full V2G': { bg: '#E8F5E9', color: '#2E7D32', border: '#A5D6A7' },
-    'Limited V2G': { bg: '#FFF3E0', color: '#E65100', border: '#FFCC80' },
-    'Protected': { bg: '#FFEBEE', color: '#C62828', border: '#EF9A9A' },
+    'Full V2G': { bg: '#E8F5E9', color: '#2E7D32' },
+    'Limited V2G': { bg: '#FFF3E0', color: '#E65100' },
+    'Protected': { bg: '#FFEBEE', color: '#C62828' },
   }
   const s = styles[status] || styles.Protected
   return (
-    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style={{ background: s.bg, color: s.color, border: `1px solid ${s.border}` }}>
+    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style={{ background: s.bg, color: s.color }}>
       {status}
     </span>
   )
@@ -182,8 +182,8 @@ export default function V2GPage() {
                   <td className="px-4 py-3 font-mono" style={{ color: ev.soc >= 70 ? '#43A047' : '#FB8C00' }}>{ev.soc}%</td>
                   <td className="px-4 py-3 font-mono" style={{ color: ev.soh >= 80 ? '#43A047' : '#FB8C00' }}>{ev.soh}%</td>
                   <td className="px-4 py-3"><EVStatusBadge status={ev.v2g_status} /></td>
-                  <td className="px-4 py-3 text-xs" style={{ color: '#64748B' }}>{ev.location || '-'}</td>
-                  <td className="px-4 py-3 text-xs" style={{ color: '#94A3B8' }}>{ev.last_dispatch || '-'}</td>
+                  <td className="px-4 py-3 text-xs" style={{ color: '#64748B' }}>{ev.location || 'Lokasi'}</td>
+                  <td className="px-4 py-3 text-xs" style={{ color: '#94A3B8' }}>{ev.last_dispatch || 'Belum ada'}</td>
                 </tr>
               ))}
             </tbody>
