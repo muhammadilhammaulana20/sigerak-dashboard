@@ -10,13 +10,6 @@ const allNavItems = [
   { to: '/reports', icon: BarChart3, label: 'Reports & Insights' },
 ]
 
-const allTabItems = [
-  { to: '/', label: 'Dashboard' },
-  { to: '/v2g', label: 'Analytics', adminOnly: true },
-  { to: '/grading', label: 'Grading', adminOnly: true },
-  { to: '/reports', label: 'Reports & Insights' },
-]
-
 export default function Layout() {
   const [collapsed, setCollapsed] = useState(false)
   const location = useLocation()
@@ -25,7 +18,6 @@ export default function Layout() {
   const isAdmin = user?.role === 'pengelola'
 
   const navItems = allNavItems.filter(item => !item.adminOnly || isAdmin)
-  const tabItems = allTabItems.filter(item => !item.adminOnly || isAdmin)
 
   const handleLogout = () => {
     logout()
@@ -41,19 +33,6 @@ export default function Layout() {
         className={`flex flex-col border-r transition-all duration-300 ${collapsed ? 'w-[72px]' : 'w-[240px]'}`}
         style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}
       >
-        {/* Logo */}
-        <div className="flex items-center gap-3 px-5 h-16 border-b" style={{ borderColor: '#E2E8F0' }}>
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-white text-sm shrink-0" style={{ background: 'linear-gradient(135deg, #1E88E5, #43A047)' }}>
-            S
-          </div>
-          {!collapsed && (
-            <div>
-              <div className="font-bold text-sm" style={{ color: '#1E293B' }}>SIGERAK</div>
-              <div className="text-[10px]" style={{ color: '#64748B' }}>Battery Intelligence</div>
-            </div>
-          )}
-        </div>
-
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 space-y-1">
           {navItems.map(({ to, icon: Icon, label }) => {
@@ -96,6 +75,16 @@ export default function Layout() {
             </h1>
           </div>
           <div className="flex items-center gap-3">
+            {isAdmin && (
+              <button
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer hover:shadow-sm"
+                style={{ background: '#F1F5F9', color: '#475569', border: '1px solid #E2E8F0' }}
+                onClick={() => window.print()}
+              >
+                <FileDown size={16} />
+                <span>Export PDF</span>
+              </button>
+            )}
             <div className="relative">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: '#94A3B8' }} />
               <input
@@ -128,37 +117,6 @@ export default function Layout() {
             </div>
           </div>
         </header>
-
-        {/* Horizontal Tab Bar */}
-        <div className="flex items-center justify-between px-6 py-2 border-b shrink-0" style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}>
-          <div className="flex items-center gap-1">
-            {tabItems.map(tab => {
-              const active = location.pathname === tab.to || (tab.to !== '/' && location.pathname.startsWith(tab.to))
-              return (
-                <NavLink
-                  key={tab.to}
-                  to={tab.to}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
-                    active ? 'text-white shadow-sm' : 'hover:bg-gray-50'
-                  }`}
-                  style={active ? { background: '#1E88E5' } : { color: '#64748B' }}
-                >
-                  {tab.label}
-                </NavLink>
-              )
-            })}
-          </div>
-          {isAdmin && (
-            <button
-              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer hover:shadow-sm"
-              style={{ background: '#F1F5F9', color: '#475569', border: '1px solid #E2E8F0' }}
-              onClick={() => window.print()}
-            >
-              <FileDown size={16} />
-              <span>Export PDF</span>
-            </button>
-          )}
-        </div>
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto p-6">

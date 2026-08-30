@@ -129,10 +129,6 @@ export default function LoginPage() {
             ))}
           </div>
 
-          {/* Footer */}
-          <div className="text-[11px] text-white/30 mt-6">
-            &copy; 2026 YESC — Young Energy Scientist Competition
-          </div>
         </div>
       </div>
 
@@ -199,12 +195,6 @@ export default function LoginPage() {
             ))}
           </div>
 
-          {/* Footer */}
-          <div className="mt-8 text-center">
-            <p className="text-xs" style={{ color: '#94A3B8' }}>
-              Demo mode — Pilih role langsung masuk tanpa password
-            </p>
-          </div>
         </div>
       </div>
     </div>
