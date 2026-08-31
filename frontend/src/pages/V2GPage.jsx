@@ -150,7 +150,7 @@ export default function V2GPage() {
       <div className="rounded-2xl border" style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}>
         <div className="p-5 border-b flex items-center justify-between" style={{ borderColor: '#E2E8F0' }}>
           <div>
-            <h3 className="font-bold text-sm" style={{ color: '#1E293B' }}>EV Pool — Status V2G</h3>
+            <h3 className="font-bold text-sm" style={{ color: '#1E293B' }}>EV Pool Status V2G</h3>
             <p className="text-xs mt-0.5" style={{ color: '#64748B' }}>Klik status untuk filter</p>
           </div>
           <div className="flex gap-2">
