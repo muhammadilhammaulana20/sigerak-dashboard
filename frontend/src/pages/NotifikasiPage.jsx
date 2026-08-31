@@ -1,4 +1,4 @@
-import { Bell, Zap, AlertTriangle, CheckCircle } from 'lucide-react'
+import { Zap, AlertTriangle, CheckCircle } from 'lucide-react'
 
 const notifications = [
   { title: 'V2G dimulai', desc: 'Sesi V2G otomatis dimulai pukul 18:00.', time: '2 jam lalu', type: 'info', icon: Zap },
@@ -6,18 +6,14 @@ const notifications = [
   { title: 'Pencairan berhasil', desc: 'Rp 40.000 dicairkan ke GoPay.', time: '20 Mei', type: 'success', icon: CheckCircle },
 ]
 
-const typeStyles = {
-  info: { bg: '#EAF0FF', color: '#2F5AF7' },
-  warning: { bg: '#FEF3E1', color: '#D97706' },
-  success: { bg: '#E9F8EF', color: '#16A34A' },
-}
+const typeStyles = { info: { bg: '#EAF0FF', color: '#2F5AF7' }, warning: { bg: '#FEF3E1', color: '#D97706' }, success: { bg: '#E9F8EF', color: '#16A34A' } }
 
 export default function NotifikasiPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
       <div>
-        <h1 style={{ fontSize: '24px', fontWeight: 800, margin: '0 0 4px', color: '#151A2D', letterSpacing: '-0.5px' }}>Notifikasi</h1>
-        <p style={{ fontSize: '14px', color: '#6B7280', margin: 0 }}>Pemberitahuan seputar status kendaraan dan V2G.</p>
+        <h1 style={{ fontSize: '22px', fontWeight: 800, margin: '0 0 4px', color: '#151A2D' }}>Notifikasi</h1>
+        <p style={{ fontSize: '13px', color: '#6B7280', margin: 0 }}>Pemberitahuan seputar status kendaraan dan V2G.</p>
       </div>
 
       <div style={{ background: '#fff', border: '1px solid #E4E7EE', borderRadius: '14px', overflow: 'hidden' }}>
@@ -25,17 +21,17 @@ export default function NotifikasiPage() {
           const s = typeStyles[n.type]
           const Icon = n.icon
           return (
-            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', borderBottom: i < notifications.length - 1 ? '1px solid #F1F3F5' : 'none' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: s.bg }}>
-                  <Icon size={18} style={{ color: s.color }} />
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', borderBottom: i < notifications.length - 1 ? '1px solid #F1F3F5' : 'none', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                <div style={{ width: '34px', height: '34px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: s.bg, flexShrink: 0 }}>
+                  <Icon size={16} style={{ color: s.color }} />
                 </div>
-                <div>
-                  <div style={{ fontSize: '14px', fontWeight: 600, color: '#151A2D' }}>{n.title}</div>
-                  <div style={{ fontSize: '13px', color: '#6B7280', marginTop: '3px' }}>{n.desc}</div>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#151A2D' }}>{n.title}</div>
+                  <div style={{ fontSize: '12px', color: '#6B7280', marginTop: '1px' }}>{n.desc}</div>
                 </div>
               </div>
-              <span style={{ fontSize: '12px', color: '#98A1B0', whiteSpace: 'nowrap' }}>{n.time}</span>
+              <span style={{ fontSize: '11px', color: '#98A1B0', flexShrink: 0 }}>{n.time}</span>
             </div>
           )
         })}
