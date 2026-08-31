@@ -1,21 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { fetchSummary } from '../services/api'
 import { Shield, Users, Zap, BatteryFull, BatteryCharging, ArrowRight } from 'lucide-react'
 
 export default function LoginPage() {
-  const [stats, setStats] = useState(null)
   const { login, user } = useAuth()
   const navigate = useNavigate()
+  const [stats] = useState({ total_ev: 4, total_vpp_kwh: 84, grade_a: 3 })
 
   useEffect(() => {
     if (user) navigate('/', { replace: true })
   }, [user, navigate])
-
-  useEffect(() => {
-    fetchSummary().then(setStats).catch(() => {})
-  }, [])
 
   const handleRoleLogin = (role) => {
     if (role === 'pengelola') {
@@ -32,8 +27,8 @@ export default function LoginPage() {
       title: 'Pengelola',
       subtitle: 'Akses penuh ke semua fitur',
       icon: Shield,
-      color: '#1E88E5',
-      bgColor: '#E3F2FD',
+      color: '#2F5AF7',
+      bgColor: '#EAF0FF',
       features: ['Dashboard & Analytics', 'Prediksi SoH & RUL', 'Grading & Mobility Risk', 'Export PDF'],
     },
     {
@@ -41,152 +36,143 @@ export default function LoginPage() {
       title: 'Pengguna',
       subtitle: 'Akses terbatas untuk monitoring',
       icon: Users,
-      color: '#43A047',
-      bgColor: '#E8F5E9',
-      features: ['Dashboard Monitoring', 'Lihat Reports & Insights', 'Status Baterai Real-time', 'Tanpa Export'],
+      color: '#16A34A',
+      bgColor: '#E9F8EF',
+      features: ['Kendaraan & Jadwal', 'Status V2G & Lokasi', 'Pendapatan & Riwayat', 'Pengaturan'],
     },
   ]
 
   const statCards = [
-    { icon: Zap, value: stats?.total_ev || 0, label: 'EV Terdaftar', color: '#1E88E5' },
-    { icon: BatteryCharging, value: `${stats?.total_vpp_kwh || 0}`, label: 'Kapasitas VPP', color: '#43A047' },
-    { icon: BatteryFull, value: stats?.grade_a || 0, label: 'Grade A', color: '#FB8C00' },
+    { icon: Zap, value: stats.total_ev, label: 'EV Terdaftar', color: '#2F5AF7' },
+    { icon: BatteryCharging, value: `${stats.total_vpp_kwh}`, label: 'Kapasitas VPP', color: '#16A34A' },
+    { icon: BatteryFull, value: stats.grade_a, label: 'Grade A', color: '#D97706' },
   ]
 
   return (
-    <div className="flex min-h-screen" style={{ background: '#F8FAFC' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#F3F5F8' }}>
       {/* Brand Section — Kiri */}
       <div
-        className="relative hidden lg:flex lg:w-[42%] xl:w-[45%] flex-col justify-between overflow-hidden"
-        style={{ background: 'linear-gradient(160deg, #1565C0 0%, #1E88E5 40%, #2E7D32 100%)' }}
+        style={{
+          position: 'relative',
+          display: 'none',
+          width: '42%',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          overflow: 'hidden',
+          background: 'linear-gradient(160deg, #0D1550 0%, #12183A 40%, #1A237E 100%)',
+        }}
+        className="hidden lg:flex"
       >
         {/* Dot pattern overlay */}
         <div
-          className="absolute inset-0 opacity-[0.07]"
           style={{
+            position: 'absolute',
+            inset: 0,
+            opacity: 0.05,
             backgroundImage: 'radial-gradient(circle, #fff 1.2px, transparent 1.2px)',
             backgroundSize: '24px 24px',
           }}
         />
 
         {/* Decorative shapes */}
-        <div
-          className="absolute -top-20 -right-20 w-64 h-64 rounded-full opacity-10"
-          style={{ background: '#FFFFFF' }}
-        />
-        <div
-          className="absolute bottom-32 -left-16 w-48 h-48 rounded-full opacity-10"
-          style={{ background: '#FFFFFF' }}
-        />
+        <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: '256px', height: '256px', borderRadius: '50%', opacity: 0.06, background: '#fff' }} />
+        <div style={{ position: 'absolute', bottom: '128px', left: '-64px', width: '192px', height: '192px', borderRadius: '50%', opacity: 0.06, background: '#fff' }} />
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col justify-between h-full px-10 py-12">
+        <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', padding: '48px 40px' }}>
           {/* Logo & Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-white text-lg"
-                style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)' }}
-              >
-                S
-              </div>
-              <div>
-                <div className="font-bold text-lg text-white tracking-wide">SIGERAK</div>
-                <div className="text-[11px] text-white/60 tracking-wider uppercase">Battery Intelligence</div>
-              </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+              <div style={{ width: '10px', height: '10px', borderRadius: '3px', background: '#2F5AF7' }} />
+              <span style={{ fontWeight: 700, fontSize: '15px', color: '#fff' }}>SIGERAK</span>
             </div>
           </div>
 
           {/* Tagline */}
-          <div className="mb-10">
-            <h1 className="text-3xl xl:text-4xl font-bold text-white leading-tight mb-3">
+          <div style={{ marginBottom: '40px' }}>
+            <h1 style={{ fontSize: '32px', fontWeight: 700, color: '#fff', lineHeight: 1.2, marginBottom: '12px' }}>
               Sistem Integrasi<br />Gerak & Regenerasi<br />Baterai EV
             </h1>
-            <p className="text-sm text-white/60 leading-relaxed max-w-xs">
+            <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, maxWidth: '280px' }}>
               Monitoring kondisi baterai, optimasi V2G, dan grading second life BESS dalam satu platform terpadu.
             </p>
           </div>
 
           {/* Stats */}
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {statCards.map((s) => (
               <div
                 key={s.label}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)' }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  background: 'rgba(255,255,255,0.06)',
+                  backdropFilter: 'blur(8px)',
+                }}
               >
-                <div
-                  className="w-9 h-9 rounded-lg flex items-center justify-center"
-                  style={{ background: 'rgba(255,255,255,0.15)' }}
-                >
-                  <s.icon size={18} className="text-white" />
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.1)' }}>
+                  <s.icon size={17} style={{ color: '#fff' }} />
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-white">{s.value}</div>
-                  <div className="text-[11px] text-white/50">{s.label}</div>
+                  <div style={{ fontSize: '17px', fontWeight: 700, color: '#fff' }}>{s.value}</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>{s.label}</div>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </div>
 
       {/* Form Section — Kanan */}
-      <div className="flex-1 flex items-center justify-center px-6 sm:px-10">
-        <div className="w-full max-w-md">
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 40px' }}>
+        <div style={{ width: '100%', maxWidth: '400px' }}>
           {/* Mobile Logo */}
-          <div className="flex items-center gap-3 mb-8 lg:hidden">
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white text-sm"
-              style={{ background: 'linear-gradient(135deg, #1E88E5, #43A047)' }}
-            >
-              S
-            </div>
-            <div className="font-bold text-lg" style={{ color: '#1E293B' }}>SIGERAK</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }} className="lg:hidden">
+            <div style={{ width: '10px', height: '10px', borderRadius: '3px', background: '#2F5AF7' }} />
+            <span style={{ fontWeight: 700, fontSize: '15px', color: '#151A2D' }}>SIGERAK</span>
           </div>
 
           {/* Header */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-1" style={{ color: '#1E293B' }}>Selamat Datang</h2>
-            <p className="text-sm" style={{ color: '#64748B' }}>Pilih role untuk masuk ke dashboard</p>
+          <div style={{ marginBottom: '32px' }}>
+            <h2 style={{ fontSize: '24px', fontWeight: 700, marginBottom: '4px', color: '#151A2D' }}>Selamat Datang</h2>
+            <p style={{ fontSize: '13.5px', color: '#6B7280' }}>Pilih role untuk masuk ke dashboard</p>
           </div>
 
           {/* Role Cards */}
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {roles.map((role) => (
               <button
                 key={role.id}
                 onClick={() => handleRoleLogin(role.id)}
-                className="w-full p-5 rounded-2xl border text-left transition-all duration-200 cursor-pointer hover:shadow-lg hover:-translate-y-0.5 group"
-                style={{ background: '#FFFFFF', borderColor: '#E2E8F0' }}
+                style={{
+                  width: '100%',
+                  padding: '20px',
+                  borderRadius: '12px',
+                  border: '1px solid #E4E7EE',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  background: '#fff',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+                onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none' }}
               >
-                <div className="flex items-start gap-4">
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
-                    style={{ background: role.bgColor }}
-                  >
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                  <div style={{ width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: role.bgColor }}>
                     <role.icon size={24} style={{ color: role.color }} />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1">
-                      <h3 className="font-bold text-base" style={{ color: '#1E293B' }}>{role.title}</h3>
-                      <ArrowRight
-                        size={18}
-                        className="transition-transform group-hover:translate-x-1"
-                        style={{ color: '#94A3B8' }}
-                      />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                      <h3 style={{ fontWeight: 700, fontSize: '15px', color: '#151A2D' }}>{role.title}</h3>
+                      <ArrowRight size={17} style={{ color: '#98A1B0' }} />
                     </div>
-                    <p className="text-xs mb-3" style={{ color: '#64748B' }}>{role.subtitle}</p>
-                    <div className="flex flex-wrap gap-2">
+                    <p style={{ fontSize: '12.5px', color: '#6B7280', marginBottom: '12px' }}>{role.subtitle}</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                       {role.features.map((f) => (
-                        <span
-                          key={f}
-                          className="text-[10px] px-2 py-1 rounded-md font-medium"
-                          style={{ background: role.bgColor, color: role.color }}
-                        >
-                          {f}
-                        </span>
+                        <span key={f} style={{ fontSize: '10.5px', padding: '3px 8px', borderRadius: '6px', fontWeight: 600, background: role.bgColor, color: role.color }}>{f}</span>
                       ))}
                     </div>
                   </div>
@@ -194,7 +180,6 @@ export default function LoginPage() {
               </button>
             ))}
           </div>
-
         </div>
       </div>
     </div>
