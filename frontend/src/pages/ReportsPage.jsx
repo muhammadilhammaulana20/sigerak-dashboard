@@ -127,17 +127,7 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      {/* Disclaimer */}
-      <div className="rounded-2xl border p-5" style={{ background: '#F8FAFC', borderColor: '#E2E8F0' }}>
-        <h4 className="font-bold text-sm mb-2" style={{ color: '#1E293B' }}>Catatan Akademis</h4>
-        <ul className="text-xs space-y-1" style={{ color: '#64748B' }}>
-          <li>• Data siklus baterai bersumber dari NASA PCoE dan CALCE Battery Data (dataset publik).</li>
-          <li>• Data populasi EV Indonesia dari Kementerian Perindustrian dan Kementerian ESDM.</li>
-          <li>• Prediksi SoH/RUL menggunakan model Random Forest/XGBoost yang dilatih dari dataset sintetis.</li>
-          <li>• Implementasi V2G membutuhkan charger dua arah yang belum tersedia luas di Indonesia.</li>
-          <li>• Sistem ini adalah prototipe Decision Support System, bukan penetapan kebijakan final.</li>
-        </ul>
-      </div>
+
     </div>
   )
 }
