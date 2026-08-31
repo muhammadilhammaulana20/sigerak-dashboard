@@ -13,7 +13,7 @@ export default function LoginPage() {
 
   const handleRoleLogin = (role) => {
     if (role === 'pengelola') login('admin', 'sigerak123')
-    else login('user1', 'user13')
+    else login('user1', 'user123')
     navigate('/', { replace: true })
   }
 
