@@ -1,38 +1,35 @@
-const cardStyle = { background: '#FFFFFF', border: '1px solid #E4E7EE', borderRadius: '12px', padding: '18px 20px' }
+import { ArrowDownRight, ArrowUpRight } from 'lucide-react'
 
 const transactions = [
-  { date: '23 Mei 2025', time: '18:00–20:00', desc: 'Kompensasi V2G', amount: '+ Rp 14.200', color: '#16A34A' },
-  { date: '22 Mei 2025', time: '18:00–21:00', desc: 'Kompensasi V2G', amount: '+ Rp 18.400', color: '#16A34A' },
-  { date: '21 Mei 2025', time: '18:00–20:30', desc: 'Kompensasi V2G', amount: '+ Rp 12.600', color: '#16A34A' },
-  { date: '20 Mei 2025', time: '—', desc: 'Pencairan ke GoPay', amount: '- Rp 40.000', color: '#DC2626' },
+  { date: '23 Mei 2025', time: '18:00 - 20:00', desc: 'Kompensasi V2G', amount: '+ Rp 14.200', color: '#16A34A', type: 'income' },
+  { date: '22 Mei 2025', time: '18:00 - 21:00', desc: 'Kompensasi V2G', amount: '+ Rp 18.400', color: '#16A34A', type: 'income' },
+  { date: '21 Mei 2025', time: '18:00 - 20:30', desc: 'Kompensasi V2G', amount: '+ Rp 12.600', color: '#16A34A', type: 'income' },
+  { date: '20 Mei 2025', time: '-', desc: 'Pencairan ke GoPay', amount: '- Rp 40.000', color: '#DC2626', type: 'expense' },
 ]
 
 export default function RiwayatTransaksiPage() {
   return (
-    <div>
-      <h1 style={{ fontSize: '20px', fontWeight: 700, margin: '0 0 4px', color: '#151A2D' }}>Riwayat transaksi</h1>
-      <p style={{ fontSize: '13.5px', color: '#6B7280', margin: '0 0 22px' }}>Semua pendapatan V2G dan pencairan saldo Anda.</p>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+      <div>
+        <h1 style={{ fontSize: '24px', fontWeight: 800, margin: '0 0 4px', color: '#151A2D', letterSpacing: '-0.5px' }}>Riwayat transaksi</h1>
+        <p style={{ fontSize: '14px', color: '#6B7280', margin: 0 }}>Semua pendapatan V2G dan pencairan saldo Anda.</p>
+      </div>
 
-      <div style={cardStyle}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13.5px' }}>
-          <thead>
-            <tr>
-              {['Tanggal', 'Jam', 'Keterangan', 'Jumlah'].map(h => (
-                <th key={h} style={{ textAlign: 'left', color: '#98A1B0', fontWeight: 500, fontSize: '12px', padding: '8px 6px', borderBottom: '1px solid #E4E7EE' }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((t, i) => (
-              <tr key={i}>
-                <td style={{ padding: '10px 6px', borderBottom: '1px solid #E4E7EE' }}>{t.date}</td>
-                <td style={{ padding: '10px 6px', borderBottom: '1px solid #E4E7EE' }}>{t.time}</td>
-                <td style={{ padding: '10px 6px', borderBottom: '1px solid #E4E7EE' }}>{t.desc}</td>
-                <td style={{ padding: '10px 6px', borderBottom: '1px solid #E4E7EE', textAlign: 'right', color: t.color, fontWeight: 600 }}>{t.amount}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div style={{ background: '#fff', border: '1px solid #E4E7EE', borderRadius: '14px', overflow: 'hidden' }}>
+        {transactions.map((t, i) => (
+          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 24px', borderBottom: i < transactions.length - 1 ? '1px solid #F1F3F5' : 'none' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: t.type === 'income' ? '#E9F8EF' : '#FDEDED' }}>
+                {t.type === 'income' ? <ArrowDownRight size={18} style={{ color: '#16A34A' }} /> : <ArrowUpRight size={18} style={{ color: '#DC2626' }} />}
+              </div>
+              <div>
+                <div style={{ fontSize: '14px', fontWeight: 600, color: '#151A2D' }}>{t.desc}</div>
+                <div style={{ fontSize: '12.5px', color: '#98A1B0', marginTop: '2px' }}>{t.date} · {t.time}</div>
+              </div>
+            </div>
+            <div style={{ fontSize: '15px', fontWeight: 700, color: t.color }}>{t.amount}</div>
+          </div>
+        ))}
       </div>
     </div>
   )
